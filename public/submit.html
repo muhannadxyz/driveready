@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Submit a route — DriveReady</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" crossorigin="" />
+  <style>
+    #submit-map { height: min(55vh, 420px); z-index: 0; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+  <header class="bg-slate-900 text-white shadow">
+    <div id="dr-nav"></div>
+  </header>
+
+  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-6 pb-24">
+    <h1 class="text-2xl font-bold mb-2">Share your road test route</h1>
+    <p class="text-slate-600 text-sm mb-6">Draw the path in <strong class="text-red-600">red</strong>, then tell others how it went.</p>
+
+    <div class="space-y-4 mb-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1" for="sub-state">State</label>
+        <select id="sub-state" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none"></select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1" for="sub-location">BMV / DMV location</label>
+        <select id="sub-location" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none"></select>
+      </div>
+    </div>
+
+    <p class="text-xs text-slate-500 mb-2">Use the polyline tool to trace your route. Tap corners on mobile — accuracy helps the next person.</p>
+    <div id="submit-map" class="rounded-2xl border border-slate-200 overflow-hidden mb-6"></div>
+
+    <form id="route-form" class="space-y-4">
+      <div>
+        <span class="block text-sm font-medium text-slate-700 mb-2">Result</span>
+        <div class="flex gap-4">
+          <label class="inline-flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="result" value="pass" class="text-emerald-600" required />
+            Pass
+          </label>
+          <label class="inline-flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="result" value="fail" class="text-emerald-600" />
+            Fail
+          </label>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1" for="desc">Describe the route</label>
+        <p class="text-xs text-slate-500 mb-2">Optional — skip if you’re in a hurry. When you can add a few words (turns, neighborhood, where you started), it really helps the next person.</p>
+        <textarea id="desc" name="description" rows="3" class="w-full rounded-xl border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Turns, neighborhoods, parking lot start, etc."></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1" for="tips">Tips for this location</label>
+        <textarea id="tips" name="tips" rows="2" class="w-full rounded-xl border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="What the examiner cared about…"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1" for="date-taken">Date you took the test</label>
+        <input type="date" id="date-taken" name="date_taken" required class="w-full rounded-xl border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+      </div>
+      <button type="submit" class="w-full rounded-xl bg-emerald-600 text-white font-semibold py-3 hover:bg-emerald-700 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+        Submit route
+      </button>
+      <p id="form-msg" class="text-sm text-center min-h-[1.25rem]" role="status"></p>
+    </form>
+  </main>
+
+  <footer id="dr-footer" class="border-t border-slate-200 bg-white"></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js" crossorigin=""></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/submit.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BMV / DMV Map — DriveReady</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <style>
+    #map { height: min(70vh, 560px); z-index: 0; }
+    .leaflet-popup-content-wrapper { border-radius: 12px; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+  <header class="bg-slate-900 text-white shadow">
+    <div id="dr-nav"></div>
+  </header>
+
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
+    <div class="mb-4 flex flex-col sm:flex-row sm:items-end gap-4 justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900">Testing locations</h1>
+        <p class="text-slate-600 text-sm mt-1">Pins show community route stats. Open a location to see mapped routes.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 items-end">
+        <div class="flex flex-col gap-1">
+          <label for="map-state" class="text-xs font-medium text-slate-500 uppercase">State</label>
+          <select id="map-state" class="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-base min-w-[200px] focus:ring-2 focus:ring-emerald-500 focus:outline-none"></select>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="map-search" class="text-xs font-medium text-slate-500 uppercase">Search location</label>
+          <input id="map-search" type="search" placeholder="City or BMV name…"
+            class="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-base min-w-[220px] focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+        </div>
+      </div>
+    </div>
+    <div id="map" class="rounded-2xl border border-slate-200 shadow-inner bg-slate-200"></div>
+    <p id="map-empty" class="hidden mt-3 text-sm text-amber-700">No locations seeded for this state yet — try Ohio (OH).</p>
+  </main>
+
+  <footer id="dr-footer" class="border-t border-slate-200 bg-white"></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/map.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Routes — DriveReady</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <style>
+    #loc-map { height: min(45vh, 360px); z-index: 0; }
+    @media (min-width: 1024px) {
+      #loc-map { height: calc(100vh - 8rem); min-height: 420px; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+  <header class="bg-slate-900 text-white shadow">
+    <div id="dr-nav"></div>
+  </header>
+
+  <main class="flex-1 flex flex-col lg:flex-row lg:max-w-7xl lg:mx-auto lg:w-full gap-0">
+    <div class="lg:w-1/2 p-4 lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden flex flex-col">
+      <div id="loc-header" class="mb-3">
+        <h1 class="text-xl font-bold loading-placeholder">Loading…</h1>
+        <p class="text-sm text-slate-600 mt-1" id="loc-sub"></p>
+      </div>
+      <div id="loc-map" class="rounded-2xl border border-slate-200 flex-1 min-h-[280px]"></div>
+      <a href="/submit.html" id="loc-submit-link" class="mt-3 text-center text-sm text-emerald-700 font-medium hover:underline">Submit a route for this location</a>
+    </div>
+    <div class="lg:w-1/2 border-t lg:border-t-0 lg:border-l border-slate-200 bg-white flex flex-col max-h-[55vh] lg:max-h-none lg:h-screen overflow-hidden">
+      <div class="p-4 border-b border-slate-100 flex flex-wrap gap-2 shrink-0">
+        <span class="text-sm font-medium text-slate-600 w-full mb-1">Sort</span>
+        <button type="button" data-sort="recent" class="sort-btn px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-600 text-white">Most recent</button>
+        <button type="button" data-sort="upvotes" class="sort-btn px-3 py-1.5 rounded-full text-sm font-medium bg-slate-200 text-slate-800">Most upvoted</button>
+        <button type="button" data-sort="passes" class="sort-btn px-3 py-1.5 rounded-full text-sm font-medium bg-slate-200 text-slate-800">Passes only</button>
+      </div>
+      <div id="route-cards" class="overflow-y-auto flex-1 p-4 space-y-4 pb-8"></div>
+    </div>
+  </main>
+
+  <footer id="dr-footer" class="border-t border-slate-200 bg-white lg:hidden"></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/location.js"></script>
+</body>
+</html>

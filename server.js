@@ -7,7 +7,17 @@
 require('dotenv').config();
 const path = require('path');
 const express = require('express');
-require('./db/database');
+
+// WHY: capture db so we can check for an empty database before starting.
+// Railway and similar platforms use ephemeral filesystems — the SQLite file is
+// created fresh on every deploy, so initSchema() runs but no seed data exists.
+// Requiring seed.js when the states table is empty brings the app to a usable
+// state automatically without any manual step in the hosting dashboard.
+const { db } = require('./db/database');
+if (db.prepare('SELECT COUNT(*) AS n FROM states').get().n === 0) {
+  console.log('Empty database detected — running initial seed...');
+  require('./db/seed');
+}
 
 const locationsRouter = require('./routes/locations');
 const routesRouter = require('./routes/routes');

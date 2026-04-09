@@ -113,8 +113,19 @@
     title.className = ok ? 'font-semibold text-emerald-700 mb-2' : 'font-semibold text-red-700 mb-2';
     expl.textContent = q.explanation;
 
-    document.getElementById('quiz-options').querySelectorAll('button').forEach((b) => {
+    // WHY: colour every button after answering so the user can see the right answer
+    // even when they chose wrong — dark green = correct, red = their wrong pick.
+    const letters = ['A', 'B', 'C', 'D'];
+    document.getElementById('quiz-options').querySelectorAll('button').forEach((b, i) => {
       b.disabled = true;
+      const btnLetter = letters[i];
+      if (btnLetter === q.correct_answer) {
+        b.className = 'w-full text-left rounded-xl border-2 border-emerald-700 bg-emerald-700 px-4 py-3 text-sm text-white font-semibold transition';
+      } else if (btnLetter === letter && !ok) {
+        b.className = 'w-full text-left rounded-xl border-2 border-red-500 bg-red-500 px-4 py-3 text-sm text-white font-semibold transition';
+      } else {
+        b.className = 'w-full text-left rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-400 transition';
+      }
     });
   }
 

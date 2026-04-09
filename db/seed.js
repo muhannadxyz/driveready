@@ -182,7 +182,10 @@ const OH_CHAPTERS = [
 ];
 
 function wipe() {
+  // WHY: route_votes has a FK to routes, so it must be deleted first or the
+  // DELETE FROM routes will fail with SQLITE_CONSTRAINT_FOREIGNKEY.
   db.exec(`
+    DELETE FROM route_votes;
     DELETE FROM routes;
     DELETE FROM questions;
     DELETE FROM handbook_chapters;

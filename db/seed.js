@@ -9,6 +9,20 @@ require('dotenv').config();
 const { db } = require('./database');
 const path = require('path');
 
+// WHY: questions are split across batch files to keep each file manageable.
+// Batch 1 = states 1–9, Batch 2 = 10–21 + 25, Batch 3 = 22–24 + 26–27,
+// Batch 4 = 28–32, Universal = remaining 17 states that share a common question set.
+const { AL_QUESTIONS, AK_QUESTIONS, AZ_QUESTIONS, AR_QUESTIONS, CA_QUESTIONS,
+        CO_QUESTIONS, CT_QUESTIONS, DE_QUESTIONS, FL_QUESTIONS } = require('./questions_all_states');
+const { GA_QUESTIONS, HI_QUESTIONS, ID_QUESTIONS, IL_QUESTIONS, IN_QUESTIONS,
+        IA_QUESTIONS, KS_QUESTIONS, KY_QUESTIONS, LA_QUESTIONS, ME_QUESTIONS,
+        MD_QUESTIONS, MA_QUESTIONS, MO_QUESTIONS } = require('./questions_batch2');
+const { MI_QUESTIONS, MN_QUESTIONS, MS_QUESTIONS, MT_QUESTIONS,
+        NE_QUESTIONS } = require('./questions_batch3');
+const { NV_QUESTIONS, NH_QUESTIONS, NJ_QUESTIONS, NM_QUESTIONS,
+        NY_QUESTIONS } = require('./questions_batch4');
+const { UNIVERSAL_QUESTIONS } = require('./questions_universal');
+
 /** Ohio's fixed state_id when states are inserted alphabetically by code (1..50). */
 const OH_ID = 35;
 
@@ -187,8 +201,73 @@ function seedQuestions() {
     INSERT INTO questions (state_id, question, option_a, option_b, option_c, option_d, correct_answer, explanation, category)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
+
+  // WHY: each entry maps a state_id to its question array. States 33–50
+  // (minus OH=35 which has its own curated set above) share UNIVERSAL_QUESTIONS.
+  const stateQuestions = [
+    [1,  AL_QUESTIONS],
+    [2,  AK_QUESTIONS],
+    [3,  AZ_QUESTIONS],
+    [4,  AR_QUESTIONS],
+    [5,  CA_QUESTIONS],
+    [6,  CO_QUESTIONS],
+    [7,  CT_QUESTIONS],
+    [8,  DE_QUESTIONS],
+    [9,  FL_QUESTIONS],
+    [10, GA_QUESTIONS],
+    [11, HI_QUESTIONS],
+    [12, ID_QUESTIONS],
+    [13, IL_QUESTIONS],
+    [14, IN_QUESTIONS],
+    [15, IA_QUESTIONS],
+    [16, KS_QUESTIONS],
+    [17, KY_QUESTIONS],
+    [18, LA_QUESTIONS],
+    [19, ME_QUESTIONS],
+    [20, MD_QUESTIONS],
+    [21, MA_QUESTIONS],
+    [22, MI_QUESTIONS],
+    [23, MN_QUESTIONS],
+    [24, MS_QUESTIONS],
+    [25, MO_QUESTIONS],
+    [26, MT_QUESTIONS],
+    [27, NE_QUESTIONS],
+    [28, NV_QUESTIONS],
+    [29, NH_QUESTIONS],
+    [30, NJ_QUESTIONS],
+    [31, NM_QUESTIONS],
+    [32, NY_QUESTIONS],
+    // NC, ND, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY
+    // share a universal question set covering rules consistent across all states
+    [33, UNIVERSAL_QUESTIONS],
+    [34, UNIVERSAL_QUESTIONS],
+    [36, UNIVERSAL_QUESTIONS],
+    [37, UNIVERSAL_QUESTIONS],
+    [38, UNIVERSAL_QUESTIONS],
+    [39, UNIVERSAL_QUESTIONS],
+    [40, UNIVERSAL_QUESTIONS],
+    [41, UNIVERSAL_QUESTIONS],
+    [42, UNIVERSAL_QUESTIONS],
+    [43, UNIVERSAL_QUESTIONS],
+    [44, UNIVERSAL_QUESTIONS],
+    [45, UNIVERSAL_QUESTIONS],
+    [46, UNIVERSAL_QUESTIONS],
+    [47, UNIVERSAL_QUESTIONS],
+    [48, UNIVERSAL_QUESTIONS],
+    [49, UNIVERSAL_QUESTIONS],
+    [50, UNIVERSAL_QUESTIONS],
+  ];
+
+  // Ohio's curated questions
   for (const q of OH_QUESTIONS) {
     ins.run(OH_ID, ...q);
+  }
+
+  // All other states
+  for (const [stateId, questions] of stateQuestions) {
+    for (const q of questions) {
+      ins.run(stateId, ...q);
+    }
   }
 }
 
@@ -279,7 +358,7 @@ function run() {
     seedSampleRoutes();
   });
   tx();
-  console.log('Seed complete: 50 states, Ohio locations/questions/chapters, sample routes.');
+  console.log('Seed complete: 50 states with questions, Ohio locations/chapters, sample routes.');
 }
 
 run();

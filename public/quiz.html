@@ -12,25 +12,78 @@
     <div id="dr-nav"></div>
   </header>
 
-  <main class="flex-1 flex items-center justify-center px-4 py-16">
-    <div class="text-center max-w-md">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 mb-6">
-        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0z"/>
-        </svg>
+  <main class="flex-1 px-4 py-10 max-w-2xl mx-auto w-full">
+
+    <!-- ── SETUP ──────────────────────────────────────────────────────────────── -->
+    <div id="quiz-setup">
+      <h1 class="text-3xl font-extrabold mb-1">Permit Practice Test</h1>
+      <p class="text-slate-500 mb-8">Select your state and start a full practice session.</p>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-4">
+        <label class="block text-sm font-semibold text-slate-700 mb-2" for="quiz-state">Your state</label>
+        <select id="quiz-state"
+          class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 mb-6">
+          <option value="">— Pick a state —</option>
+        </select>
+
+        <button id="start-quiz"
+          class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl px-6 py-3 transition mb-3">
+          Start practice test
+        </button>
+
+        <button id="review-wrongs" disabled
+          class="w-full border border-emerald-300 text-emerald-700 hover:bg-emerald-50 disabled:opacity-40 disabled:cursor-not-allowed font-semibold rounded-xl px-6 py-3 transition text-sm">
+          Review missed questions
+        </button>
+        <p id="wrong-hint" class="text-xs text-slate-400 mt-2 text-center"></p>
+        <p id="quiz-setup-msg" class="text-red-500 text-sm mt-3 text-center"></p>
       </div>
-      <h1 class="text-3xl font-extrabold text-slate-900 mb-3">Coming soon</h1>
-      <p class="text-slate-500 text-base mb-8">
-        The permit practice test is still being built. Check back soon — we're adding questions for every state.
-      </p>
-      <a href="/" class="inline-block rounded-xl bg-emerald-600 text-white font-semibold px-6 py-3 hover:bg-emerald-700 transition">
-        Back to home
-      </a>
     </div>
+
+    <!-- ── QUIZ RUN ────────────────────────────────────────────────────────────── -->
+    <div id="quiz-run" class="hidden">
+      <!-- progress header -->
+      <div class="flex items-center justify-between mb-2 text-sm text-slate-500">
+        <span id="quiz-progress">Question 1 of 40</span>
+        <span id="quiz-score-inline" class="font-semibold text-emerald-600">0 correct</span>
+      </div>
+
+      <!-- question card -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-4">
+        <p id="quiz-cat" class="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-3"></p>
+        <p id="quiz-qtext" class="text-lg font-semibold text-slate-900 mb-6 leading-snug"></p>
+        <div id="quiz-options" class="flex flex-col gap-3"></div>
+      </div>
+
+      <!-- feedback panel (hidden until answer chosen) -->
+      <div id="quiz-feedback" class="hidden bg-slate-100 rounded-xl px-5 py-4 mb-4 text-sm leading-relaxed">
+        <p id="feedback-title" class="font-semibold mb-2"></p>
+        <p id="feedback-expl" class="text-slate-600"></p>
+      </div>
+
+      <button id="quiz-next"
+        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl px-6 py-3 transition">
+        Next question →
+      </button>
+    </div>
+
+    <!-- ── SUMMARY ─────────────────────────────────────────────────────────────── -->
+    <div id="quiz-summary" class="hidden text-center">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 mb-6">
+        <p id="summary-pass" class="text-xl font-bold mb-4"></p>
+        <p id="summary-text" class="text-slate-600 text-sm mb-6"></p>
+        <button id="quiz-retry"
+          class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl px-6 py-3 transition">
+          Try again
+        </button>
+      </div>
+    </div>
+
   </main>
 
-  <footer id="dr-footer" class="border-t border-slate-200 bg-white"></footer>
+  <footer id="dr-footer" class="border-t border-slate-200 bg-white mt-auto"></footer>
 
   <script src="/js/common.js"></script>
+  <script src="/js/quiz.js"></script>
 </body>
 </html>
